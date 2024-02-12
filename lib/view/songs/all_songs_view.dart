@@ -25,6 +25,7 @@ class _AllSongsViewState extends State<AllSongsView> {
             var sObj = allVM.allList[index];
             return AllSongsRow(
                 sObj: sObj,
+                isWeb: true,
                 onPressed: () {},
                 onPressedPlay: () {
                   Get.to(() => const MainPlayerView());

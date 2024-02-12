@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:music_player/common/app_images.dart';
 import 'package:music_player/common/color_extensions.dart';
@@ -6,12 +7,14 @@ class AllSongsRow extends StatelessWidget {
   final Map sObj;
   final VoidCallback onPressed;
   final VoidCallback onPressedPlay;
+  final bool isWeb;
 
   const AllSongsRow({
     Key? key,
     required this.sObj,
     required this.onPressed,
     required this.onPressedPlay,
+    this.isWeb = false,
   }) : super(key: key);
 
   @override
@@ -26,12 +29,31 @@ class AllSongsRow extends StatelessWidget {
               children: [
                 ClipRRect(
                   borderRadius: BorderRadius.circular(25),
-                  child: Image.asset(
-                    sObj["image"],
-                    width: 50,
-                    height: 50,
-                    fit: BoxFit.cover,
-                  ),
+                  child: isWeb
+                      ? CachedNetworkImage(
+                          imageUrl: sObj["image"].toString(),
+                          fit: BoxFit.cover,
+                          width: 50,
+                          height: 50,
+                          errorWidget: (context, url, error) {
+                            return Image.asset(
+                              AppImages.cover,
+                              fit: BoxFit.cover,
+                            );
+                          },
+                          placeholder: (context, url) {
+                            return Image.asset(
+                              AppImages.cover,
+                              fit: BoxFit.cover,
+                            );
+                          },
+                        )
+                      : Image.asset(
+                          sObj["image"],
+                          width: 50,
+                          height: 50,
+                          fit: BoxFit.cover,
+                        ),
                 ),
                 Container(
                   width: 50,
@@ -70,7 +92,7 @@ class AllSongsRow extends StatelessWidget {
                     maxLines: 1,
                   ),
                   Text(
-                    sObj["artists"],
+                    sObj["primaryArtists"],
                     style: TextStyle(
                       color: TColor.primaryText28,
                       fontSize: 10,
