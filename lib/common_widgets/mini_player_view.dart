@@ -169,21 +169,54 @@ class _MiniPlayerViewState extends State<MiniPlayerView> {
                                     clipBehavior: Clip.antiAlias,
                                     child: SizedBox.square(
                                       dimension: 40,
-                                      child: CachedNetworkImage(
-                                        imageUrl: mediaItem.artUri.toString(),
-                                        fit: BoxFit.cover,
-                                        errorWidget: (context, url, error) {
-                                          return Image.asset(
-                                            AppImages.cover,
-                                            fit: BoxFit.cover,
-                                          );
-                                        },
-                                        placeholder: (context, url) {
-                                          return Image.asset(
-                                            AppImages.cover,
-                                            fit: BoxFit.cover,
-                                          );
-                                        },
+                                      child: Stack(
+                                        alignment: Alignment.center,
+                                        children: [
+                                          ClipRRect(
+                                            borderRadius:
+                                                BorderRadius.circular(25),
+                                            child: CachedNetworkImage(
+                                              imageUrl:
+                                                  mediaItem.artUri.toString(),
+                                              fit: BoxFit.cover,
+                                              width: 40,
+                                              height: 40,
+                                              errorWidget:
+                                                  (context, url, error) {
+                                                return Image.asset(
+                                                  AppImages.appLogo,
+                                                  fit: BoxFit.cover,
+                                                );
+                                              },
+                                              placeholder: (context, url) {
+                                                return Image.asset(
+                                                  AppImages.appLogo,
+                                                  fit: BoxFit.cover,
+                                                );
+                                              },
+                                            ),
+                                          ),
+                                          Container(
+                                            width: 40,
+                                            height: 40,
+                                            decoration: BoxDecoration(
+                                              border: Border.all(
+                                                color: TColor.primaryText28,
+                                              ),
+                                              borderRadius:
+                                                  BorderRadius.circular(20),
+                                            ),
+                                          ),
+                                          Container(
+                                            width: 15,
+                                            height: 15,
+                                            decoration: BoxDecoration(
+                                              color: TColor.bg,
+                                              borderRadius:
+                                                  BorderRadius.circular(7.5),
+                                            ),
+                                          ),
+                                        ],
                                       ),
                                     ),
                                   ),

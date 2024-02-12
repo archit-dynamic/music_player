@@ -37,13 +37,13 @@ class AllSongsRow extends StatelessWidget {
                           height: 50,
                           errorWidget: (context, url, error) {
                             return Image.asset(
-                              AppImages.cover,
+                              AppImages.appLogo,
                               fit: BoxFit.cover,
                             );
                           },
                           placeholder: (context, url) {
                             return Image.asset(
-                              AppImages.cover,
+                              AppImages.appLogo,
                               fit: BoxFit.cover,
                             );
                           },

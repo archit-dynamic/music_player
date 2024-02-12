@@ -44,5 +44,5 @@ class AppImages {
   static String repeat = "assets/img/repeat.png";
   static String shuffle = "assets/img/shuffle.png";
   static String close = "assets/img/close.png";
-  static String cover = "assets/img/cover.png";
+  static String cover = "assets/img/cover.jpg";
 }
