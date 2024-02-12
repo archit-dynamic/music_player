@@ -1,0 +1,48 @@
+class AppImages {
+  AppImages._();
+
+  static String appLogo = "assets/img/app_logo.png";
+  static String homeTab = "assets/img/home_tab.png";
+  static String homeTabUn = "assets/img/home_tab_un.png";
+  static String songsTab = "assets/img/songs_tab.png";
+  static String songsTabUn = "assets/img/songs_tab_un.png";
+  static String settingsTab = "assets/img/setting_tab.png";
+  static String settingsTabUn = "assets/img/setting_tab_un.png";
+  static String menu = "assets/img/menu.png";
+  static String search = "assets/img/search.png";
+  static String playBtn = "assets/img/play_btn.png";
+  static String fav = "assets/img/fav.png";
+  static String mTheme = "assets/img/m_theme.png";
+  static String mRingCut = "assets/img/m_ring_cut.png";
+  static String mSleepTimer = "assets/img/m_sleep_timer.png";
+  static String mEq = "assets/img/m_eq.png";
+  static String mDriverMode = "assets/img/m_driver_mode.png";
+  static String mHiddenFolder = "assets/img/m_hidden_folder.png";
+  static String mScanMedia = "assets/img/m_scan_media.png";
+  static String sDisplay = "assets/img/s_display.png";
+  static String sAudio = "assets/img/s_audio.png";
+  static String sHeadset = "assets/img/s_headset.png";
+  static String sLockScreen = "assets/img/s_lock_screen.png";
+  static String sMenu = "assets/img/s_menu.png";
+  static String sOther = "assets/img/s_other.png";
+  static String play = "assets/img/play.png";
+  static String add = "assets/img/add.png";
+  static String moreBtn = "assets/img/more_btn.png";
+  static String alb1 = "assets/img/alb_1.png";
+  static String playN = "assets/img/play_n.png";
+  static String share = "assets/img/share.png";
+  static String playEq = "assets/img/play_eq.png";
+  static String more = "assets/img/more.png";
+  static String back = "assets/img/back.png";
+  static String artistDetailsTop = "assets/img/artitst_detail_top.png";
+  static String playerImage = "assets/img/player_image.png";
+  static String eqDisplay = "assets/img/eq_display.png";
+  static String nextSong = "assets/img/next_song.png";
+  static String previousSong = "assets/img/previous_song.png";
+  static String playlist = "assets/img/playlist.png";
+  static String eq = "assets/img/eq.png";
+  static String repeat = "assets/img/repeat.png";
+  static String shuffle = "assets/img/shuffle.png";
+  static String close = "assets/img/close.png";
+  static String cover = "assets/img/cover.png";
+}
