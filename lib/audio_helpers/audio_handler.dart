@@ -6,32 +6,27 @@ import 'package:just_audio/just_audio.dart';
 
 Future<AudioHandler> initAudioService() async {
   return await AudioService.init(
-    builder: () => MyAudioHandler(),
-    config: AudioServiceConfig(
-      androidNotificationChannelId: "com.example.music_player.channel.audio",
-      androidNotificationChannelName: "music_player",
-      androidNotificationIcon: "drawable/ic_stat_music_note",
-      androidShowNotificationBadge: true,
-      androidStopForegroundOnPause: true,
-      notificationColor: Colors.grey[900],
-    ),
-  );
+      builder: () => MyAudioHandler(),
+      config: AudioServiceConfig(
+        androidNotificationChannelId: "com.example.music_player.channel.audio",
+        androidNotificationChannelName: "music_player",
+        androidNotificationIcon: "drawable/ic_stat_music_note",
+        androidShowNotificationBadge: true,
+        androidStopForegroundOnPause: true,
+        notificationColor: Colors.grey[900],
+      ));
 }
 
 abstract class AudioPlayerHandler implements AudioHandler {
   Future<void> setNewPlaylist(List<MediaItem> mediaItems, int index);
-
-  Future<void> moveQueue(int currentIndex, int newIndex);
-
+  Future<void> moveQueueItem(int currentIndex, int newIndex);
   Future<void> removeQueueItemIndex(int index);
 }
 
 class MyAudioHandler extends BaseAudioHandler implements AudioPlayerHandler {
   final player = AudioPlayer();
-  final playlist = ConcatenatingAudioSource(
-    children: [],
-    useLazyPreparation: true,
-  );
+  final playlist =
+      ConcatenatingAudioSource(children: [], useLazyPreparation: true);
   late List<int> preferredCompactNotificationButton = [1, 2, 3];
 
   MyAudioHandler() {
@@ -47,7 +42,7 @@ class MyAudioHandler extends BaseAudioHandler implements AudioPlayerHandler {
       preferredCompactNotificationButton = [0, 1, 2];
       await player.setAudioSource(playlist);
     } catch (e) {
-      debugPrint("Error: $e");
+      print("Error: $e");
     }
   }
 
@@ -55,22 +50,14 @@ class MyAudioHandler extends BaseAudioHandler implements AudioPlayerHandler {
     player.playbackEventStream.listen((event) {
       final playing = player.playing;
       playbackState.add(PlaybackState(
-        // Which buttons should appear in the notification now
         controls: [
           MediaControl.skipToPrevious,
           if (playing) MediaControl.pause else MediaControl.play,
           MediaControl.stop,
           MediaControl.skipToNext,
         ],
-        // Which other actions should be enabled in the notification
-        systemActions: const {
-          MediaAction.seek,
-          // MediaAction.seekForward,
-          // MediaAction.seekBackward,
-        },
-        // Which controls to show in Android's compact view.
+        systemActions: const {MediaAction.seek},
         androidCompactActionIndices: const [0, 1, 3],
-        // Whether audio is ready, buffering, ...
         processingState: const {
           ProcessingState.idle: AudioProcessingState.idle,
           ProcessingState.loading: AudioProcessingState.loading,
@@ -86,14 +73,10 @@ class MyAudioHandler extends BaseAudioHandler implements AudioPlayerHandler {
         shuffleMode: player.shuffleModeEnabled
             ? AudioServiceShuffleMode.all
             : AudioServiceShuffleMode.none,
-        // Whether audio is playing
-        playing: true,
+        playing: playing,
         updatePosition: player.position,
-        // The current buffered position as of this update
         bufferedPosition: player.bufferedPosition,
-        // The current speed
         speed: player.speed,
-        // The current queue position
         queueIndex: event.currentIndex,
       ));
     });
@@ -145,8 +128,8 @@ class MyAudioHandler extends BaseAudioHandler implements AudioPlayerHandler {
 
   @override
   Future<void> addQueueItems(List<MediaItem> mediaItems) async {
-    final audioSources = createAudioSources(mediaItems);
-    await playlist.addAll(audioSources);
+    final audioSource = createAudioSources(mediaItems);
+    await playlist.addAll(audioSource);
     final newQueue = queue.value..addAll(mediaItems);
     queue.add(newQueue);
   }
@@ -166,18 +149,14 @@ class MyAudioHandler extends BaseAudioHandler implements AudioPlayerHandler {
   }
 
   UriAudioSource createAudioSource(MediaItem mediaItem) {
-    return AudioSource.uri(
-      Uri.parse(mediaItem.extras!["url"] as String),
-      tag: mediaItem,
-    );
+    return AudioSource.uri(Uri.parse(mediaItem.extras!['url'] as String),
+        tag: mediaItem);
   }
 
   List<UriAudioSource> createAudioSources(List<MediaItem> mediaItems) {
     return mediaItems
-        .map((item) => AudioSource.uri(
-              Uri.parse(item.extras!["url"] as String),
-              tag: item,
-            ))
+        .map((item) => AudioSource.uri(Uri.parse(item.extras!['url'] as String),
+            tag: item))
         .toList();
   }
 
@@ -200,7 +179,7 @@ class MyAudioHandler extends BaseAudioHandler implements AudioPlayerHandler {
 
   @override
   Future<void> seek(Duration position) async {
-    await player.seek(position);
+    player.seek(position);
   }
 
   @override
@@ -209,20 +188,17 @@ class MyAudioHandler extends BaseAudioHandler implements AudioPlayerHandler {
     if (player.shuffleModeEnabled) {
       index = player.shuffleIndices![index];
     }
-    player.seek(
-      Duration.zero,
-      index: index,
-    );
+    player.seek(Duration.zero, index: index);
   }
 
   @override
   Future<void> skipToNext() async {
-    await player.seekToNext();
+    player.seekToNext();
   }
 
   @override
   Future<void> skipToPrevious() async {
-    await player.seekToPrevious();
+    player.seekToPrevious();
   }
 
   @override
@@ -243,7 +219,7 @@ class MyAudioHandler extends BaseAudioHandler implements AudioPlayerHandler {
 
   @override
   Future<void> setShuffleMode(AudioServiceShuffleMode shuffleMode) async {
-    if (shuffleMode == AudioServiceShuffleMode.all) {
+    if (shuffleMode == AudioServiceShuffleMode.none) {
       player.setShuffleModeEnabled(false);
     } else {
       player.shuffle();
@@ -253,7 +229,7 @@ class MyAudioHandler extends BaseAudioHandler implements AudioPlayerHandler {
 
   @override
   Future customAction(String name, [Map<String, dynamic>? extras]) async {
-    if (name == "dispose") {
+    if (name == 'dispose') {
       await player.dispose();
       super.stop();
     }
@@ -262,16 +238,13 @@ class MyAudioHandler extends BaseAudioHandler implements AudioPlayerHandler {
   @override
   Future<void> stop() async {
     await player.stop();
-    playbackState.add(
-      playbackState.value.copyWith(
-        processingState: AudioProcessingState.idle,
-      ),
-    );
+    playbackState.add(playbackState.value
+        .copyWith(processingState: AudioProcessingState.idle));
     return super.stop();
   }
 
   @override
-  Future<void> moveQueue(int currentIndex, int newIndex) async {
+  Future<void> moveQueueItem(int currentIndex, int newIndex) async {
     await playlist.move(currentIndex, newIndex);
   }
 
@@ -292,10 +265,7 @@ class MyAudioHandler extends BaseAudioHandler implements AudioPlayerHandler {
     await playlist.addAll(audioSource);
     final newQueue = queue.value..addAll(mediaItems);
     queue.add(newQueue);
-    await player.setAudioSource(
-      playlist,
-      initialIndex: index,
-      initialPosition: Duration.zero,
-    );
+    await player.setAudioSource(playlist,
+        initialIndex: index, initialPosition: Duration.zero);
   }
 }

@@ -33,7 +33,7 @@ class _MiniPlayerViewState extends State<MiniPlayerView> {
     final pageManager = getIt<PageManager>();
 
     return ValueListenableBuilder<AudioProcessingState>(
-      valueListenable: pageManager.playBackStateNotifier,
+      valueListenable: pageManager.playbackStatNotifier,
       builder: (context, processingState, _) {
         if (processingState == AudioProcessingState.idle) {
           return const SizedBox();
@@ -60,8 +60,6 @@ class _MiniPlayerViewState extends State<MiniPlayerView> {
                   return Future.value(false);
                 },
                 child: Card(
-                  margin: const EdgeInsets.symmetric(
-                      horizontal: 2.0, vertical: 1.0),
                   elevation: 0,
                   color: Colors.white10,
                   child: SizedBox(
@@ -72,165 +70,142 @@ class _MiniPlayerViewState extends State<MiniPlayerView> {
                           sigmaX: 8,
                           sigmaY: 8,
                         ),
-                        child: ShaderMask(
-                          shaderCallback: (rect) {
-                            return const LinearGradient(
-                              end: Alignment.topCenter,
-                              begin: Alignment.bottomCenter,
-                              colors: [
-                                Colors.black,
-                                Colors.black,
-                                Colors.transparent,
-                              ],
-                            ).createShader(
-                              Rect.fromLTRB(
-                                0,
-                                0,
-                                rect.width,
-                                rect.height,
-                              ),
-                            );
-                          },
-                          blendMode: BlendMode.dstIn,
-                          child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              ValueListenableBuilder<ProgressBarState>(
-                                valueListenable: pageManager.progressNotifier,
-                                builder: (context, value, _) {
-                                  final position = value.current;
-                                  final totalDuration = value.total;
-                                  return position == null
-                                      ? const SizedBox()
-                                      : (position.inSeconds.toDouble() < 0.0 ||
-                                              (position.inSeconds.toDouble() >
-                                                  totalDuration.inSeconds
-                                                      .toDouble()))
-                                          ? const SizedBox()
-                                          : SliderTheme(
-                                              data: SliderThemeData(
-                                                activeTrackColor: TColor.focus,
-                                                inactiveTrackColor:
-                                                    Colors.transparent,
-                                                trackHeight: 5,
-                                                thumbColor: TColor.focus,
-                                                thumbShape:
-                                                    const RoundSliderOverlayShape(
-                                                  overlayRadius: 2.5,
-                                                ),
-                                                overlayColor:
-                                                    Colors.transparent,
-                                                overlayShape:
-                                                    const RoundSliderOverlayShape(
-                                                  overlayRadius: 2,
-                                                ),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            ValueListenableBuilder<ProgressBarState>(
+                              valueListenable: pageManager.progressNotifier,
+                              builder: (context, value, _) {
+                                final position = value.current;
+                                final totalDuration = value.total;
+                                return position == null
+                                    ? const SizedBox()
+                                    : (position.inSeconds.toDouble() < 0.0 ||
+                                            (position.inSeconds.toDouble() >
+                                                totalDuration.inSeconds
+                                                    .toDouble()))
+                                        ? const SizedBox()
+                                        : SliderTheme(
+                                            data: SliderThemeData(
+                                              activeTrackColor: TColor.focus,
+                                              inactiveTrackColor:
+                                                  Colors.transparent,
+                                              trackHeight: 3,
+                                              thumbColor: TColor.focus,
+                                              thumbShape:
+                                                  const RoundSliderOverlayShape(
+                                                overlayRadius: 1.5,
                                               ),
-                                              child: Center(
-                                                child: Slider(
-                                                  inactiveColor:
-                                                      Colors.transparent,
-                                                  value: position.inSeconds
-                                                      .toDouble(),
-                                                  max: totalDuration.inSeconds
-                                                      .toDouble(),
-                                                  onChanged: (newPosition) {
-                                                    pageManager.seek(
-                                                      Duration(
-                                                        seconds:
-                                                            newPosition.round(),
-                                                      ),
-                                                    );
-                                                  },
-                                                ),
+                                              overlayColor: Colors.transparent,
+                                              overlayShape:
+                                                  const RoundSliderOverlayShape(
+                                                overlayRadius: 1,
                                               ),
-                                            );
-                                },
-                              ),
-                              ListTile(
-                                dense: false,
-                                onTap: () {},
-                                title: Text(
-                                  mediaItem.title,
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                                subtitle: Text(
-                                  mediaItem.artist ?? "",
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                                leading: Hero(
-                                  tag: "currentArtWork",
-                                  child: Card(
-                                    elevation: 0,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(30),
-                                    ),
-                                    clipBehavior: Clip.antiAlias,
-                                    child: SizedBox.square(
-                                      dimension: 40,
-                                      child: Stack(
-                                        alignment: Alignment.center,
-                                        children: [
-                                          ClipRRect(
-                                            borderRadius:
-                                                BorderRadius.circular(25),
-                                            child: CachedNetworkImage(
-                                              imageUrl:
-                                                  mediaItem.artUri.toString(),
-                                              fit: BoxFit.cover,
-                                              width: 40,
-                                              height: 40,
-                                              errorWidget:
-                                                  (context, url, error) {
-                                                return Image.asset(
-                                                  AppImages.appLogo,
-                                                  fit: BoxFit.cover,
-                                                );
-                                              },
-                                              placeholder: (context, url) {
-                                                return Image.asset(
-                                                  AppImages.appLogo,
-                                                  fit: BoxFit.cover,
-                                                );
-                                              },
                                             ),
-                                          ),
-                                          Container(
+                                            child: Center(
+                                              child: Slider(
+                                                inactiveColor:
+                                                    Colors.transparent,
+                                                value: position.inSeconds
+                                                    .toDouble(),
+                                                max: totalDuration.inSeconds
+                                                    .toDouble(),
+                                                onChanged: (newPosition) {
+                                                  pageManager.seek(
+                                                    Duration(
+                                                      seconds:
+                                                          newPosition.round(),
+                                                    ),
+                                                  );
+                                                },
+                                              ),
+                                            ),
+                                          );
+                              },
+                            ),
+                            ListTile(
+                              dense: false,
+                              onTap: () {},
+                              title: Text(
+                                mediaItem.title,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                              subtitle: Text(
+                                mediaItem.artist ?? "",
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                              leading: Hero(
+                                tag: "currentArtWork",
+                                child: Card(
+                                  elevation: 0,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(30),
+                                  ),
+                                  clipBehavior: Clip.antiAlias,
+                                  child: SizedBox.square(
+                                    dimension: 40,
+                                    child: Stack(
+                                      alignment: Alignment.center,
+                                      children: [
+                                        ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(25),
+                                          child: CachedNetworkImage(
+                                            imageUrl:
+                                                mediaItem.artUri.toString(),
+                                            fit: BoxFit.cover,
                                             width: 40,
                                             height: 40,
-                                            decoration: BoxDecoration(
-                                              border: Border.all(
-                                                color: TColor.primaryText28,
-                                              ),
-                                              borderRadius:
-                                                  BorderRadius.circular(20),
-                                            ),
+                                            errorWidget: (context, url, error) {
+                                              return Image.asset(
+                                                AppImages.appLogo,
+                                                fit: BoxFit.cover,
+                                              );
+                                            },
+                                            placeholder: (context, url) {
+                                              return Image.asset(
+                                                AppImages.appLogo,
+                                                fit: BoxFit.cover,
+                                              );
+                                            },
                                           ),
-                                          Container(
-                                            width: 15,
-                                            height: 15,
-                                            decoration: BoxDecoration(
-                                              color: TColor.bg,
-                                              borderRadius:
-                                                  BorderRadius.circular(7.5),
+                                        ),
+                                        Container(
+                                          width: 40,
+                                          height: 40,
+                                          decoration: BoxDecoration(
+                                            border: Border.all(
+                                              color: TColor.primaryText28,
                                             ),
+                                            borderRadius:
+                                                BorderRadius.circular(20),
                                           ),
-                                        ],
-                                      ),
+                                        ),
+                                        Container(
+                                          width: 15,
+                                          height: 15,
+                                          decoration: BoxDecoration(
+                                            color: TColor.bg,
+                                            borderRadius:
+                                                BorderRadius.circular(7.5),
+                                          ),
+                                        ),
+                                      ],
                                     ),
                                   ),
                                 ),
-                                trailing: const ControlButtons(
-                                  miniPlayer: true,
-                                  buttons: [
-                                    "Play/Pause",
-                                    "Next",
-                                  ],
-                                ),
                               ),
-                            ],
-                          ),
+                              trailing: const ControlButtons(
+                                miniPlayer: true,
+                                buttons: [
+                                  "Play/Pause",
+                                  "Next",
+                                ],
+                              ),
+                            ),
+                          ],
                         ),
                       ),
                     ),
