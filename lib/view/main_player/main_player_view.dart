@@ -222,7 +222,10 @@ class _MainPlayerViewState extends State<MainPlayerView> {
                                   if (!dragging) {
                                     dragging = true;
                                   }
-                                  dragValue = value;
+                                  setState(() {
+                                    dragValue = value;
+                                  });
+
                                   pageManager.seek(
                                     Duration(
                                       milliseconds: value.round(),
@@ -329,15 +332,24 @@ class _MainPlayerViewState extends State<MainPlayerView> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        SizedBox(
-                          width: 45,
-                          height: 45,
-                          child: IconButton(
-                            onPressed: () {},
-                            icon: Image.asset(
-                              AppImages.previousSong,
-                            ),
-                          ),
+                        ValueListenableBuilder<bool>(
+                          valueListenable: pageManager.isFirstSongNotifier,
+                          builder: (context, isFirst, child) {
+                            return SizedBox(
+                              width: 45,
+                              height: 45,
+                              child: IconButton(
+                                onPressed:
+                                    isFirst ? null : pageManager.previous,
+                                icon: Image.asset(
+                                  AppImages.previousSong,
+                                  color: isFirst
+                                      ? TColor.primaryText35
+                                      : TColor.primaryText,
+                                ),
+                              ),
+                            );
+                          },
                         ),
                         const SizedBox(
                           width: 15,
@@ -355,15 +367,20 @@ class _MainPlayerViewState extends State<MainPlayerView> {
                         const SizedBox(
                           width: 15,
                         ),
-                        SizedBox(
-                          width: 45,
-                          height: 45,
-                          child: IconButton(
-                            onPressed: () {},
-                            icon: Image.asset(
-                              AppImages.nextSong,
-                            ),
-                          ),
+                        ValueListenableBuilder<bool>(
+                          valueListenable: pageManager.isLastSongNotifier,
+                          builder: (context, isLast, child) {
+                            return SizedBox(
+                              width: 45,
+                              height: 45,
+                              child: IconButton(
+                                onPressed: () {},
+                                icon: Image.asset(
+                                  AppImages.nextSong,
+                                ),
+                              ),
+                            );
+                          },
                         ),
                       ],
                     ),
