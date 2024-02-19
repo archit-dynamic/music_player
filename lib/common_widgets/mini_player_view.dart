@@ -8,6 +8,7 @@ import 'package:music_player/audio_helpers/service_locator.dart';
 import 'package:music_player/common/app_images.dart';
 import 'package:music_player/common/color_extensions.dart';
 import 'package:music_player/common_widgets/control_buttons.dart';
+import 'package:music_player/view/main_player/main_player_view.dart';
 
 class MiniPlayerView extends StatefulWidget {
   static const MiniPlayerView _instance = MiniPlayerView._internal();
@@ -125,7 +126,16 @@ class _MiniPlayerViewState extends State<MiniPlayerView> {
                             ),
                             ListTile(
                               dense: false,
-                              onTap: () {},
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  PageRouteBuilder(
+                                    opaque: false,
+                                    pageBuilder: (_, __, ___) =>
+                                        const MainPlayerView(),
+                                  ),
+                                );
+                              },
                               title: Text(
                                 mediaItem.title,
                                 maxLines: 1,
