@@ -45,4 +45,5 @@ class AppImages {
   static String shuffle = "assets/img/shuffle.png";
   static String close = "assets/img/close.png";
   static String cover = "assets/img/cover.jpg";
+  static String pause = "assets/img/pause.png";
 }

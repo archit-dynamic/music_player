@@ -354,15 +354,45 @@ class _MainPlayerViewState extends State<MainPlayerView> {
                         const SizedBox(
                           width: 15,
                         ),
-                        SizedBox(
-                          width: 60,
-                          height: 60,
-                          child: IconButton(
-                            onPressed: () {},
-                            icon: Image.asset(
-                              AppImages.play,
-                            ),
-                          ),
+                        ValueListenableBuilder<ButtonState>(
+                          valueListenable: pageManager.playButtonNotifier,
+                          builder: (context, value, child) {
+                            return Stack(
+                              children: [
+                                if (value == ButtonState.loading)
+                                  SizedBox(
+                                    width: 60,
+                                    height: 60,
+                                    child: CircularProgressIndicator(
+                                      valueColor: AlwaysStoppedAnimation<Color>(
+                                        TColor.primaryText,
+                                      ),
+                                    ),
+                                  ),
+                                SizedBox(
+                                  width: 60,
+                                  height: 60,
+                                  child: value == ButtonState.playing
+                                      ? InkWell(
+                                          onTap: pageManager.pause,
+                                          child: Icon(
+                                            Icons.pause_rounded,
+                                            color: TColor.primaryText,
+                                            size: 60,
+                                          ),
+                                        )
+                                      : InkWell(
+                                          onTap: pageManager.play,
+                                          child: Icon(
+                                            Icons.play_circle_filled_rounded,
+                                            color: TColor.primaryText,
+                                            size: 60,
+                                          ),
+                                        ),
+                                ),
+                              ],
+                            );
+                          },
                         ),
                         const SizedBox(
                           width: 15,
@@ -374,9 +404,12 @@ class _MainPlayerViewState extends State<MainPlayerView> {
                               width: 45,
                               height: 45,
                               child: IconButton(
-                                onPressed: () {},
+                                onPressed: isLast ? null : pageManager.next,
                                 icon: Image.asset(
                                   AppImages.nextSong,
+                                  color: isLast
+                                      ? TColor.primaryText35
+                                      : TColor.primaryText,
                                 ),
                               ),
                             );
