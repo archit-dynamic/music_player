@@ -80,8 +80,10 @@ class _MainPlayerViewState extends State<MainPlayerView> {
               ),
               padding: EdgeInsets.zero,
               onSelected: (selectIndex) {
-                if (selectIndex == 9) {
-                  Get.to(() => const DriverModeView());
+                if (selectIndex == 2) {
+                  openPlaylistQueue();
+                } else if (selectIndex == 9) {
+                  openDriverModel();
                 }
               },
               elevation: 1,
@@ -358,6 +360,7 @@ class _MainPlayerViewState extends State<MainPlayerView> {
                           valueListenable: pageManager.playButtonNotifier,
                           builder: (context, value, child) {
                             return Stack(
+                              alignment: Alignment.center,
                               children: [
                                 if (value == ButtonState.loading)
                                   SizedBox(
@@ -424,7 +427,14 @@ class _MainPlayerViewState extends State<MainPlayerView> {
                           title: "Playlist",
                           icon: AppImages.playlist,
                           onPressed: () {
-                            Get.to(() => const PlayPlaylistView());
+                            Navigator.push(
+                              context,
+                              PageRouteBuilder(
+                                opaque: false,
+                                pageBuilder: (_, __, ___) =>
+                                    const PlayPlaylistView(),
+                              ),
+                            );
                           },
                         ),
                         PlayerBottomButton(
@@ -455,6 +465,26 @@ class _MainPlayerViewState extends State<MainPlayerView> {
             );
           },
         ),
+      ),
+    );
+  }
+
+  void openPlaylistQueue() {
+    Navigator.push(
+      context,
+      PageRouteBuilder(
+        opaque: false,
+        pageBuilder: (_, __, ___) => const PlayPlaylistView(),
+      ),
+    );
+  }
+
+  void openDriverModel() {
+    Navigator.push(
+      context,
+      PageRouteBuilder(
+        opaque: false,
+        pageBuilder: (_, __, ___) => const DriverModeView(),
       ),
     );
   }

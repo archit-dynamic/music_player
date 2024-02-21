@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:music_player/common/app_images.dart';
 import 'package:music_player/common/color_extensions.dart';
+import 'package:music_player/view/search/search_view.dart';
 import 'package:music_player/view/songs/albums_view.dart';
 import 'package:music_player/view/songs/all_songs_view.dart';
 import 'package:music_player/view/songs/artists_view.dart';
@@ -62,7 +63,15 @@ class _SongsViewState extends State<SongsView>
         ),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(
+                context,
+                PageRouteBuilder(
+                  opaque: false,
+                  pageBuilder: (_, __, ___) => const SearchView(),
+                ),
+              );
+            },
             icon: Image.asset(
               AppImages.search,
               width: 20,
