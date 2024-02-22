@@ -6,14 +6,15 @@ import 'package:get/get.dart';
 import 'package:music_player/audio_helpers/page_manager.dart';
 import 'package:music_player/audio_helpers/service_locator.dart';
 import 'package:music_player/common/color_extensions.dart';
+import 'package:music_player/firebase_options.dart';
 import 'package:music_player/view/main_tabview/splash_view.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   HttpOverrides.global = MyHttpOverrides();
   await Firebase.initializeApp(
-      // options: DefaultFirebaseOptions.currentPlatform,
-      );
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
   await setupServiceLocator();
   runApp(const MyApp());
 }

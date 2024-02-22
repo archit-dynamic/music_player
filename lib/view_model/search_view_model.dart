@@ -12,6 +12,7 @@ class SearchViewModel extends GetxController {
   RxString error = "".obs;
   RxList<Song> songsList = <Song>[].obs;
   final deBouncer = DeBouncer(milliseconds: 500);
+  bool isLastSong = false;
 
   void onSearch(String query) {
     deBouncer.run(() {
@@ -32,8 +33,18 @@ class SearchViewModel extends GetxController {
         error.value = l;
       },
       (r) {
-        songsList.value = r.data?.songs ?? [];
+        songsList.addAll(r.data?.songs ?? []);
+        if ((r.data?.songs?.length ?? 0) < 20) {
+          isLastSong = true;
+        } else {
+          currentPageNumber += 1;
+        }
       },
     );
+  }
+
+  onLastSongReached(String query) {
+    if (isLastSong) return;
+    searchSongs(query);
   }
 }
