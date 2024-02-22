@@ -2,16 +2,17 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:music_player/common/app_images.dart';
 import 'package:music_player/common/color_extensions.dart';
+import 'package:music_player/model/songs_model.dart';
 
 class AllSongsRow extends StatelessWidget {
-  final Map sObj;
+  final Song song;
   final VoidCallback onPressed;
   final VoidCallback onPressedPlay;
   final bool isWeb;
 
   const AllSongsRow({
     Key? key,
-    required this.sObj,
+    required this.song,
     required this.onPressed,
     required this.onPressedPlay,
     this.isWeb = false,
@@ -31,7 +32,7 @@ class AllSongsRow extends StatelessWidget {
                   borderRadius: BorderRadius.circular(25),
                   child: isWeb
                       ? CachedNetworkImage(
-                          imageUrl: sObj["image"].toString(),
+                          imageUrl: song.image?.last.link ?? "",
                           fit: BoxFit.cover,
                           width: 50,
                           height: 50,
@@ -49,7 +50,7 @@ class AllSongsRow extends StatelessWidget {
                           },
                         )
                       : Image.asset(
-                          sObj["image"],
+                          song.image?.last.link ?? "",
                           width: 50,
                           height: 50,
                           fit: BoxFit.cover,
@@ -83,7 +84,7 @@ class AllSongsRow extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    sObj["name"],
+                    song.name ?? "",
                     style: TextStyle(
                       color: TColor.primaryText60,
                       fontSize: 13,
@@ -92,7 +93,7 @@ class AllSongsRow extends StatelessWidget {
                     maxLines: 1,
                   ),
                   Text(
-                    sObj["primaryArtists"],
+                    song.primaryArtists ?? "",
                     style: TextStyle(
                       color: TColor.primaryText28,
                       fontSize: 10,

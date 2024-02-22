@@ -3,10 +3,12 @@ import 'package:music_player/common/color_extensions.dart';
 
 class SearchWidget extends StatefulWidget {
   final TextEditingController searchController;
+  final Function(String) onChanged;
 
   const SearchWidget({
     Key? key,
     required this.searchController,
+    required this.onChanged,
   }) : super(key: key);
 
   @override
@@ -24,6 +26,7 @@ class _SearchWidgetState extends State<SearchWidget> {
       ),
       child: TextField(
         controller: widget.searchController,
+        onChanged: widget.onChanged,
         maxLines: 1,
         showCursor: true,
         cursorColor: TColor.primaryText,

@@ -9,103 +9,105 @@ SongModel songModelFromJson(String str) => SongModel.fromJson(json.decode(str));
 String songModelToJson(SongModel data) => json.encode(data.toJson());
 
 class SongModel {
-  String status;
+  String? status;
   dynamic message;
-  SongData data;
+  SongData? data;
 
   SongModel({
-    required this.status,
-    required this.message,
-    required this.data,
+    this.status,
+    this.message,
+    this.data,
   });
 
   factory SongModel.fromJson(Map<String, dynamic> json) => SongModel(
         status: json["status"],
         message: json["message"],
-        data: SongData.fromJson(json["data"]),
+        data: json["data"] == null ? null : SongData.fromJson(json["data"]),
       );
 
   Map<String, dynamic> toJson() => {
         "status": status,
         "message": message,
-        "data": data.toJson(),
+        "data": data!.toJson(),
       };
 }
 
 class SongData {
-  int total;
-  int start;
-  List<Song> songs;
+  int? total;
+  int? start;
+  List<Song>? songs;
 
   SongData({
-    required this.total,
-    required this.start,
-    required this.songs,
+    this.total,
+    this.start,
+    this.songs,
   });
 
   factory SongData.fromJson(Map<String, dynamic> json) => SongData(
         total: json["total"],
         start: json["start"],
-        songs: List<Song>.from(json["results"].map((x) => Song.fromJson(x))),
+        songs: json["results"] == null
+            ? []
+            : List<Song>.from(json["results"].map((x) => Song.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
         "total": total,
         "start": start,
-        "results": List<dynamic>.from(songs.map((x) => x.toJson())),
+        "results": List<dynamic>.from(songs!.map((x) => x.toJson())),
       };
 }
 
 class Song {
-  String id;
-  String name;
-  String type;
-  Album album;
-  String year;
+  String? id;
+  String? name;
+  String? type;
+  Album? album;
+  String? year;
   dynamic releaseDate;
-  String duration;
-  String label;
-  String primaryArtists;
-  String primaryArtistsId;
-  String featuredArtists;
-  String featuredArtistsId;
-  int explicitContent;
-  String playCount;
-  String language;
-  String hasLyrics;
-  String url;
-  String copyright;
-  List<DownloadUrl> image;
-  List<DownloadUrl> downloadUrl;
+  String? duration;
+  String? label;
+  String? primaryArtists;
+  String? primaryArtistsId;
+  String? featuredArtists;
+  String? featuredArtistsId;
+  int? explicitContent;
+  String? playCount;
+  String? language;
+  String? hasLyrics;
+  String? url;
+  String? copyright;
+  List<DownloadUrl>? image;
+  List<DownloadUrl>? downloadUrl;
 
   Song({
-    required this.id,
-    required this.name,
-    required this.type,
-    required this.album,
-    required this.year,
-    required this.releaseDate,
-    required this.duration,
-    required this.label,
-    required this.primaryArtists,
-    required this.primaryArtistsId,
-    required this.featuredArtists,
-    required this.featuredArtistsId,
-    required this.explicitContent,
-    required this.playCount,
-    required this.language,
-    required this.hasLyrics,
-    required this.url,
-    required this.copyright,
-    required this.image,
-    required this.downloadUrl,
+    this.id,
+    this.name,
+    this.type,
+    this.album,
+    this.year,
+    this.releaseDate,
+    this.duration,
+    this.label,
+    this.primaryArtists,
+    this.primaryArtistsId,
+    this.featuredArtists,
+    this.featuredArtistsId,
+    this.explicitContent,
+    this.playCount,
+    this.language,
+    this.hasLyrics,
+    this.url,
+    this.copyright,
+    this.image,
+    this.downloadUrl,
   });
 
   factory Song.fromJson(Map<String, dynamic> json) => Song(
         id: json["id"],
         name: json["name"],
         type: json["type"],
-        album: Album.fromJson(json["album"]),
+        album: json["album"] == null ? null : Album.fromJson(json["album"]),
         year: json["year"],
         releaseDate: json["releaseDate"],
         duration: json["duration"],
@@ -120,17 +122,21 @@ class Song {
         hasLyrics: json["hasLyrics"],
         url: json["url"],
         copyright: json["copyright"],
-        image: List<DownloadUrl>.from(
-            json["image"].map((x) => DownloadUrl.fromJson(x))),
-        downloadUrl: List<DownloadUrl>.from(
-            json["downloadUrl"].map((x) => DownloadUrl.fromJson(x))),
+        image: json["image"] == null
+            ? []
+            : List<DownloadUrl>.from(
+                json["image"].map((x) => DownloadUrl.fromJson(x))),
+        downloadUrl: json["downloadUrl"] == null
+            ? []
+            : List<DownloadUrl>.from(
+                json["downloadUrl"].map((x) => DownloadUrl.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
         "id": id,
         "name": name,
         "type": type,
-        "album": album.toJson(),
+        "album": album!.toJson(),
         "year": year,
         "releaseDate": releaseDate,
         "duration": duration,
@@ -145,20 +151,20 @@ class Song {
         "hasLyrics": hasLyrics,
         "url": url,
         "copyright": copyright,
-        "image": List<dynamic>.from(image.map((x) => x.toJson())),
-        "downloadUrl": List<dynamic>.from(downloadUrl.map((x) => x.toJson())),
+        "image": List<dynamic>.from(image!.map((x) => x.toJson())),
+        "downloadUrl": List<dynamic>.from(downloadUrl!.map((x) => x.toJson())),
       };
 }
 
 class Album {
-  String id;
-  String name;
-  String url;
+  String? id;
+  String? name;
+  String? url;
 
   Album({
-    required this.id,
-    required this.name,
-    required this.url,
+    this.id,
+    this.name,
+    this.url,
   });
 
   factory Album.fromJson(Map<String, dynamic> json) => Album(
@@ -175,12 +181,12 @@ class Album {
 }
 
 class DownloadUrl {
-  Quality quality;
-  String link;
+  Quality? quality;
+  String? link;
 
   DownloadUrl({
-    required this.quality,
-    required this.link,
+    this.quality,
+    this.link,
   });
 
   factory DownloadUrl.fromJson(Map<String, dynamic> json) => DownloadUrl(

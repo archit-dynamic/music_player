@@ -5,7 +5,7 @@ import 'package:music_player/common/app_images.dart';
 import 'package:music_player/common/color_extensions.dart';
 import 'package:music_player/common_widgets/all_songs_row.dart';
 import 'package:music_player/common_widgets/search_widget.dart';
-import 'package:music_player/view_model/all_songs_view_model.dart';
+import 'package:music_player/view_model/search_view_model.dart';
 
 class SearchView extends StatefulWidget {
   const SearchView({Key? key}) : super(key: key);
@@ -19,7 +19,7 @@ class _SearchViewState extends State<SearchView> {
 
   @override
   Widget build(BuildContext context) {
-    final allVM = Get.put<AllSongsViewModel>(AllSongsViewModel());
+    final searchVM = Get.put<SearchViewModel>(SearchViewModel());
 
     return Scaffold(
       backgroundColor: TColor.bg,
@@ -40,6 +40,7 @@ class _SearchViewState extends State<SearchView> {
         ),
         title: SearchWidget(
           searchController: searchController,
+          onChanged: searchVM.onSearch,
         ),
       ),
       body: Container(
@@ -49,27 +50,27 @@ class _SearchViewState extends State<SearchView> {
         child: Obx(
           () => ListView.builder(
             padding: const EdgeInsets.all(20),
-            itemCount: allVM.allList.length,
+            itemCount: searchVM.songsList.length,
             itemBuilder: (context, index) {
-              var sObj = allVM.allList[index];
+              var song = searchVM.songsList[index];
               return AllSongsRow(
-                sObj: sObj,
+                song: song,
                 isWeb: true,
                 onPressed: () {},
                 onPressedPlay: () {
                   // Get.to(() => const MainPlayerView());
                   playerPlayProcessDebounce(
-                      allVM.allList
-                          .map((sObj) => {
-                                "id": sObj["id"].toString(),
-                                "title": sObj["name"].toString(),
-                                "artist": sObj["primaryArtists"].toString(),
-                                "album": sObj["album"].toString(),
-                                "genre": sObj["language"].toString(),
-                                "image": sObj["image"].toString(),
-                                "url": sObj["downloadUrl"].toString(),
-                                "user_id": sObj["primaryArtistsId"].toString(),
-                                "user_name": sObj["primaryArtists"].toString(),
+                      searchVM.songsList
+                          .map((song) => {
+                                "id": song.id.toString(),
+                                "title": song.name.toString(),
+                                "artist": song.primaryArtists.toString(),
+                                "album": song.album.toString(),
+                                "genre": song.language.toString(),
+                                "image": song.image?.last.link.toString(),
+                                "url": song.downloadUrl?.last.link.toString(),
+                                "user_id": song.primaryArtistsId.toString(),
+                                "user_name": song.primaryArtists.toString(),
                               })
                           .toList(),
                       index);
