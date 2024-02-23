@@ -35,12 +35,14 @@ class SearchViewModel extends GetxController {
       (r) {
         if (clearList) {
           songsList.clear();
+          currentPageNumber.value = 0;
+          isLastSong = false;
         }
         songsList.addAll(r.data?.songs ?? []);
         if ((r.data?.songs?.length ?? 0) < 20) {
           isLastSong = true;
         } else {
-          currentPageNumber += 1;
+          currentPageNumber.value += 1;
         }
       },
     );
