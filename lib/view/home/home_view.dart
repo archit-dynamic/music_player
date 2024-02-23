@@ -88,7 +88,7 @@ class _HomeViewState extends State<HomeView> {
           children: [
             const TitleSection(title: "Hot Recommended"),
             SizedBox(
-              height: 190,
+              height: 200,
               child: ListView.builder(
                 padding: const EdgeInsets.all(10),
                 scrollDirection: Axis.horizontal,

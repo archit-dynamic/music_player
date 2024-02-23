@@ -20,7 +20,7 @@ class SearchViewModel extends GetxController {
     });
   }
 
-  Future<void> searchSongs(String query) async {
+  Future<void> searchSongs(String query, {bool clearList = true}) async {
     isLoading.value = true;
     final Either<String, SongModel> result = await songsRepository.searchSongs(
       query: query,
@@ -33,6 +33,9 @@ class SearchViewModel extends GetxController {
         error.value = l;
       },
       (r) {
+        if (clearList) {
+          songsList.clear();
+        }
         songsList.addAll(r.data?.songs ?? []);
         if ((r.data?.songs?.length ?? 0) < 20) {
           isLastSong = true;
@@ -45,6 +48,6 @@ class SearchViewModel extends GetxController {
 
   onLastSongReached(String query) {
     if (isLastSong) return;
-    searchSongs(query);
+    searchSongs(query, clearList: false);
   }
 }
