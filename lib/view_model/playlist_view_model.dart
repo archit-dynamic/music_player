@@ -1,6 +1,34 @@
 import 'package:get/get.dart';
+import 'package:music_player/firebase/authentication_queries.dart';
+import 'package:music_player/firebase/song_queries.dart';
+import 'package:music_player/model/playlist_model.dart';
+import 'package:music_player/model/songs_response.dart';
 
 class PlaylistViewModel extends GetxController {
+  RxList<PlaylistModel> playlistList = <PlaylistModel>[].obs;
+  RxList<Song> playListSongs = <Song>[].obs;
+
+  @override
+  void onInit() {
+    super.onInit();
+    getPlaylists();
+  }
+
+  getPlaylists() async {
+    playlistList.value = await FirebaseSongQueries().getPlaylists(
+          userId: FirebaseAuthenticationQueries().user?.uid ?? "",
+        ) ??
+        [];
+  }
+
+  getPlaylistSongs(String playListId) async {
+    playListSongs.value = await FirebaseSongQueries().getPlaylistSongs(
+          userId: FirebaseAuthenticationQueries().user?.uid ?? "",
+          playlistId: playListId,
+        ) ??
+        [];
+  }
+
   final playlistArr = [
     {
       "image": "assets/img/playlist_1.png",

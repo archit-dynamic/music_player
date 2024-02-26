@@ -3,6 +3,8 @@ import 'package:get/get.dart';
 import 'package:music_player/common/app_images.dart';
 import 'package:music_player/common/color_extensions.dart';
 import 'package:music_player/common_widgets/icon_text_row.dart';
+import 'package:music_player/firebase/authentication_queries.dart';
+import 'package:music_player/view/login/login_view.dart';
 import 'package:music_player/view_model/splash_view_model.dart';
 
 class HomeDrawer extends StatelessWidget {
@@ -119,6 +121,14 @@ class HomeDrawer extends StatelessWidget {
             icon: AppImages.mScanMedia,
             onTap: () {
               splashVM.closeDrawer();
+            },
+          ),
+          IconTextRow(
+            title: "Logout",
+            icon: AppImages.mScanMedia,
+            onTap: () {
+              FirebaseAuthenticationQueries().signOut();
+              Get.to(() => const LogInView());
             },
           ),
         ],

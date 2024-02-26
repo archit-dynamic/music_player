@@ -46,59 +46,61 @@ class AlbumCell extends StatelessWidget {
           const SizedBox(
             height: 8,
           ),
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Expanded(
-                child: Text(
-                  aObj["name"],
-                  style: TextStyle(
-                    color: TColor.primaryText,
-                    fontSize: 13,
-                    fontWeight: FontWeight.w600,
+          Expanded(
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Expanded(
+                  child: Text(
+                    aObj["name"],
+                    style: TextStyle(
+                      color: TColor.primaryText,
+                      fontSize: 13,
+                      fontWeight: FontWeight.w600,
+                    ),
+                    maxLines: 1,
                   ),
-                  maxLines: 1,
                 ),
-              ),
-              const SizedBox(
-                width: 4,
-              ),
-              SizedBox(
-                width: 12,
-                height: 12,
-                child: PopupMenuButton<int>(
-                  color: const Color(0xff383b49),
-                  offset: const Offset(-10, 15),
-                  icon: Image.asset(
-                    AppImages.moreBtn,
-                    width: 12,
-                    height: 12,
-                  ),
-                  padding: EdgeInsets.zero,
-                  onSelected: onPressedMenu,
-                  elevation: 1,
-                  itemBuilder: (context) {
-                    return [
-                      for (int i = 0; i < menuItems.length; i++)
-                        PopupMenuItem(
-                          value: i + 1,
-                          height: 30,
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 15,
-                          ),
-                          child: Text(
-                            menuItems[i],
-                            style: TextStyle(
-                              fontSize: 12,
-                              color: TColor.primaryText,
+                const SizedBox(
+                  width: 4,
+                ),
+                SizedBox(
+                  width: 12,
+                  height: 12,
+                  child: PopupMenuButton<int>(
+                    color: const Color(0xff383b49),
+                    offset: const Offset(-10, 15),
+                    icon: Image.asset(
+                      AppImages.moreBtn,
+                      width: 12,
+                      height: 12,
+                    ),
+                    padding: EdgeInsets.zero,
+                    onSelected: onPressedMenu,
+                    elevation: 1,
+                    itemBuilder: (context) {
+                      return [
+                        for (int i = 0; i < menuItems.length; i++)
+                          PopupMenuItem(
+                            value: i + 1,
+                            height: 30,
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 15,
+                            ),
+                            child: Text(
+                              menuItems[i],
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: TColor.primaryText,
+                              ),
                             ),
                           ),
-                        ),
-                    ];
-                  },
+                      ];
+                    },
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
           const SizedBox(
             height: 4,

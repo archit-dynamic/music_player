@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:music_player/audio_helpers/player_invoke.dart';
 import 'package:music_player/common_widgets/all_songs_row.dart';
-import 'package:music_player/model/songs_model.dart';
+import 'package:music_player/model/songs_response.dart';
 import 'package:music_player/view_model/all_songs_view_model.dart';
+import 'package:music_player/view_model/splash_view_model.dart';
 
 class AllSongsView extends StatefulWidget {
   const AllSongsView({Key? key}) : super(key: key);
@@ -46,6 +47,7 @@ class _AllSongsViewState extends State<AllSongsView> {
               onPressed: () {},
               onPressedPlay: () {
                 // Get.to(() => const MainPlayerView());
+                Get.find<SplashViewModel>().setCurrentPlayingSong(song);
                 playerPlayProcessDebounce(
                     allVM.allList
                         .map((sObj) => {

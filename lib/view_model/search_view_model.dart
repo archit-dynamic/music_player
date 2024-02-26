@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:get/get.dart';
-import 'package:music_player/model/songs_model.dart';
+import 'package:music_player/model/songs_response.dart';
 import 'package:music_player/repository/songs_repository.dart';
 import 'package:music_player/repository/songs_repository_imp.dart';
 import 'package:music_player/utils/debouncer_util.dart';
@@ -22,7 +22,8 @@ class SearchViewModel extends GetxController {
 
   Future<void> searchSongs(String query, {bool clearList = true}) async {
     isLoading.value = true;
-    final Either<String, SongModel> result = await songsRepository.searchSongs(
+    final Either<String, SongResponse> result =
+        await songsRepository.searchSongs(
       query: query,
       limit: 20,
       pageNo: currentPageNumber.value,

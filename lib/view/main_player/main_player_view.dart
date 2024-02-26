@@ -9,8 +9,11 @@ import 'package:music_player/audio_helpers/service_locator.dart';
 import 'package:music_player/common/app_images.dart';
 import 'package:music_player/common/color_extensions.dart';
 import 'package:music_player/common_widgets/player_bottom_button.dart';
+import 'package:music_player/model/songs_response.dart';
+import 'package:music_player/view/add_to_playlist/add_to_playlist_view.dart';
 import 'package:music_player/view/main_player/driver_mode_view.dart';
 import 'package:music_player/view/main_player/play_playlist_view.dart';
+import 'package:music_player/view_model/splash_view_model.dart';
 import 'package:sleek_circular_slider/sleek_circular_slider.dart';
 
 class MainPlayerView extends StatefulWidget {
@@ -451,6 +454,23 @@ class _MainPlayerViewState extends State<MainPlayerView> {
                           title: "EQ",
                           icon: AppImages.eq,
                           onPressed: () {},
+                        ),
+                        PlayerBottomButton(
+                          title: "Add to playlist",
+                          icon: AppImages.add,
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              PageRouteBuilder(
+                                opaque: false,
+                                pageBuilder: (_, __, ___) => AddToPlaylistView(
+                                  song: Get.find<SplashViewModel>()
+                                          .getCurrentPlayingSong() ??
+                                      Song(),
+                                ),
+                              ),
+                            );
+                          },
                         ),
                         PlayerBottomButton(
                           title: "Favourites",

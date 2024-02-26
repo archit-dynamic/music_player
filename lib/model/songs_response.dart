@@ -4,22 +4,23 @@
 
 import 'dart:convert';
 
-SongModel songModelFromJson(String str) => SongModel.fromJson(json.decode(str));
+SongResponse songResponseFromJson(String str) =>
+    SongResponse.fromJson(json.decode(str));
 
-String songModelToJson(SongModel data) => json.encode(data.toJson());
+String songResponseToJson(SongResponse data) => json.encode(data.toJson());
 
-class SongModel {
+class SongResponse {
   String? status;
   dynamic message;
   SongData? data;
 
-  SongModel({
+  SongResponse({
     this.status,
     this.message,
     this.data,
   });
 
-  factory SongModel.fromJson(Map<String, dynamic> json) => SongModel(
+  factory SongResponse.fromJson(Map<String, dynamic> json) => SongResponse(
         status: json["status"],
         message: json["message"],
         data: json["data"] == null ? null : SongData.fromJson(json["data"]),

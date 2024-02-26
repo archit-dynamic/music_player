@@ -4,6 +4,7 @@ import 'package:music_player/common/app_images.dart';
 import 'package:music_player/common_widgets/my_playlist_cell.dart';
 import 'package:music_player/common_widgets/playlist_songs_cell.dart';
 import 'package:music_player/common_widgets/view_all_section.dart';
+import 'package:music_player/view/songs/playlist_details_view.dart';
 import 'package:music_player/view_model/playlist_view_model.dart';
 
 class PlaylistView extends StatefulWidget {
@@ -55,10 +56,23 @@ class _PlaylistViewState extends State<PlaylistView> {
                 () => ListView.builder(
                   scrollDirection: Axis.horizontal,
                   padding: const EdgeInsets.symmetric(horizontal: 10),
-                  itemCount: plVM.myPlaylistArr.length,
+                  itemCount: plVM.playlistList.length,
                   itemBuilder: (context, index) {
-                    var pObj = plVM.myPlaylistArr[index];
-                    return MyPlaylistCell(pObj: pObj, onPressed: () {});
+                    var pObj = plVM.playlistList[index];
+                    return MyPlaylistCell(
+                        playlist: pObj,
+                        onPressed: () {
+                          plVM.getPlaylistSongs(pObj.id ?? "");
+                          Navigator.push(
+                            context,
+                            PageRouteBuilder(
+                              opaque: false,
+                              pageBuilder: (_, __, ___) => PlaylistDetailsView(
+                                playlist: pObj,
+                              ),
+                            ),
+                          );
+                        });
                   },
                 ),
               ),

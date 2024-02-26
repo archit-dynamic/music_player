@@ -2,7 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:music_player/common/app_images.dart';
 import 'package:music_player/common/color_extensions.dart';
-import 'package:music_player/model/songs_model.dart';
+import 'package:music_player/model/songs_response.dart';
 
 class AllSongsRow extends StatelessWidget {
   final Song song;

@@ -46,4 +46,6 @@ class AppImages {
   static String close = "assets/img/close.png";
   static String cover = "assets/img/cover.jpg";
   static String pause = "assets/img/pause.png";
+  static String hidePassword = "assets/img/hide_password.png";
+  static String showPassword = "assets/img/show_password.png";
 }

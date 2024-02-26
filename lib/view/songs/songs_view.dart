@@ -8,6 +8,11 @@ import 'package:music_player/view/songs/all_songs_view.dart';
 import 'package:music_player/view/songs/artists_view.dart';
 import 'package:music_player/view/songs/genres_view.dart';
 import 'package:music_player/view/songs/playlist_view.dart';
+import 'package:music_player/view_model/albums_view_model.dart';
+import 'package:music_player/view_model/all_songs_view_model.dart';
+import 'package:music_player/view_model/artists_view_model.dart';
+import 'package:music_player/view_model/genres_view_model.dart';
+import 'package:music_player/view_model/playlist_view_model.dart';
 import 'package:music_player/view_model/splash_view_model.dart';
 
 class SongsView extends StatefulWidget {
@@ -30,7 +35,74 @@ class _SongsViewState extends State<SongsView>
       vsync: this,
     );
     controller?.addListener(() {
+      debugPrint("controller?.index ${controller?.index}");
       selectTab = controller?.index ?? 0;
+      if (selectTab == 0) {
+        if (Get.isRegistered<PlaylistViewModel>()) {
+          Get.delete<PlaylistViewModel>();
+        }
+        if (Get.isRegistered<AlbumViewModel>()) {
+          Get.delete<AlbumViewModel>();
+        }
+        if (Get.isRegistered<ArtistsViewModel>()) {
+          Get.delete<ArtistsViewModel>();
+        }
+        if (Get.isRegistered<GenresViewModel>()) {
+          Get.delete<GenresViewModel>();
+        }
+      } else if (selectTab == 1) {
+        if (Get.isRegistered<AllSongsViewModel>()) {
+          Get.delete<AllSongsViewModel>();
+        }
+        if (Get.isRegistered<AlbumViewModel>()) {
+          Get.delete<AlbumViewModel>();
+        }
+        if (Get.isRegistered<ArtistsViewModel>()) {
+          Get.delete<ArtistsViewModel>();
+        }
+        if (Get.isRegistered<GenresViewModel>()) {
+          Get.delete<GenresViewModel>();
+        }
+      } else if (selectTab == 2) {
+        if (Get.isRegistered<AllSongsViewModel>()) {
+          Get.delete<AllSongsViewModel>();
+        }
+        if (Get.isRegistered<PlaylistViewModel>()) {
+          Get.delete<PlaylistViewModel>();
+        }
+        if (Get.isRegistered<ArtistsViewModel>()) {
+          Get.delete<ArtistsViewModel>();
+        }
+        if (Get.isRegistered<GenresViewModel>()) {
+          Get.delete<GenresViewModel>();
+        }
+      } else if (selectTab == 3) {
+        if (Get.isRegistered<AllSongsViewModel>()) {
+          Get.delete<AllSongsViewModel>();
+        }
+        if (Get.isRegistered<PlaylistViewModel>()) {
+          Get.delete<PlaylistViewModel>();
+        }
+        if (Get.isRegistered<AlbumViewModel>()) {
+          Get.delete<AlbumViewModel>();
+        }
+        if (Get.isRegistered<GenresViewModel>()) {
+          Get.delete<GenresViewModel>();
+        }
+      } else if (selectTab == 4) {
+        if (Get.isRegistered<AllSongsViewModel>()) {
+          Get.delete<AllSongsViewModel>();
+        }
+        if (Get.isRegistered<PlaylistViewModel>()) {
+          Get.delete<PlaylistViewModel>();
+        }
+        if (Get.isRegistered<AlbumViewModel>()) {
+          Get.delete<AlbumViewModel>();
+        }
+        if (Get.isRegistered<ArtistsViewModel>()) {
+          Get.delete<ArtistsViewModel>();
+        }
+      }
       setState(() {});
     });
   }
