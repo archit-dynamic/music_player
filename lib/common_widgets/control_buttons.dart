@@ -33,14 +33,22 @@ class ControlButtons extends StatelessWidget {
             return ValueListenableBuilder<bool>(
               valueListenable: pageManager.isFirstSongNotifier,
               builder: (context, isFirst, _) {
-                return IconButton(
-                  onPressed: isFirst ? null : pageManager.previous,
-                  icon: Image.asset(
-                    AppImages.previousSong,
-                    width: miniPlayer ? 20 : 50,
-                    height: miniPlayer ? 20 : 50,
-                  ),
-                );
+                return ValueListenableBuilder(
+                    valueListenable: pageManager.playlistNotifier,
+                    builder: (context, queue, _) {
+                      return IconButton(
+                        onPressed: isFirst
+                            ? () {
+                                pageManager.skipToQueueItem(queue.length - 1);
+                              }
+                            : pageManager.previous,
+                        icon: Image.asset(
+                          AppImages.previousSong,
+                          width: miniPlayer ? 20 : 50,
+                          height: miniPlayer ? 20 : 50,
+                        ),
+                      );
+                    });
               },
             );
           case "Play/Pause":
@@ -113,7 +121,11 @@ class ControlButtons extends StatelessWidget {
               valueListenable: pageManager.isLastSongNotifier,
               builder: (context, isLast, _) {
                 return IconButton(
-                  onPressed: isLast ? null : pageManager.next,
+                  onPressed: isLast
+                      ? () {
+                          pageManager.skipToQueueItem(0);
+                        }
+                      : pageManager.next,
                   icon: Image.asset(
                     AppImages.nextSong,
                     width: miniPlayer ? 20 : 50,

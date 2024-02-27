@@ -343,16 +343,22 @@ class _MainPlayerViewState extends State<MainPlayerView> {
                             return SizedBox(
                               width: 45,
                               height: 45,
-                              child: IconButton(
-                                onPressed:
-                                    isFirst ? null : pageManager.previous,
-                                icon: Image.asset(
-                                  AppImages.previousSong,
-                                  color: isFirst
-                                      ? TColor.primaryText35
-                                      : TColor.primaryText,
-                                ),
-                              ),
+                              child: ValueListenableBuilder(
+                                  valueListenable: pageManager.playlistNotifier,
+                                  builder: (context, queue, _) {
+                                    return IconButton(
+                                      onPressed: isFirst
+                                          ? () {
+                                              pageManager.skipToQueueItem(
+                                                  queue.length - 1);
+                                            }
+                                          : pageManager.previous,
+                                      icon: Image.asset(
+                                        AppImages.previousSong,
+                                        color: TColor.primaryText,
+                                      ),
+                                    );
+                                  }),
                             );
                           },
                         ),
@@ -410,12 +416,14 @@ class _MainPlayerViewState extends State<MainPlayerView> {
                               width: 45,
                               height: 45,
                               child: IconButton(
-                                onPressed: isLast ? null : pageManager.next,
+                                onPressed: isLast
+                                    ? () {
+                                        pageManager.skipToQueueItem(0);
+                                      }
+                                    : pageManager.next,
                                 icon: Image.asset(
                                   AppImages.nextSong,
-                                  color: isLast
-                                      ? TColor.primaryText35
-                                      : TColor.primaryText,
+                                  color: TColor.primaryText,
                                 ),
                               ),
                             );
@@ -481,11 +489,6 @@ class _MainPlayerViewState extends State<MainPlayerView> {
                                 },
                               );
                             }),
-                        PlayerBottomButton(
-                          title: "EQ",
-                          icon: AppImages.eq,
-                          onPressed: () {},
-                        ),
                         PlayerBottomButton(
                           title: "Add to playlist",
                           icon: AppImages.add,

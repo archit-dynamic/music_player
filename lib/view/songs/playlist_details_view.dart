@@ -154,11 +154,6 @@ class _PlaylistDetailsViewState extends State<PlaylistDetailsView> {
                           );
                         }),
                     PlayerBottomButton(
-                      title: "EQ",
-                      icon: AppImages.eq,
-                      onPressed: () {},
-                    ),
-                    PlayerBottomButton(
                       title: "Favourites",
                       icon: AppImages.fav,
                       onPressed: () {},

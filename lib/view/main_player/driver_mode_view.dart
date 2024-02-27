@@ -255,16 +255,22 @@ class _DriverModeViewState extends State<DriverModeView> {
                             return SizedBox(
                               width: 60,
                               height: 60,
-                              child: IconButton(
-                                onPressed:
-                                    isFirst ? null : pageManager.previous,
-                                icon: Image.asset(
-                                  AppImages.previousSong,
-                                  color: isFirst
-                                      ? TColor.primaryText35
-                                      : TColor.primaryText,
-                                ),
-                              ),
+                              child: ValueListenableBuilder(
+                                  valueListenable: pageManager.playlistNotifier,
+                                  builder: (context, queue, _) {
+                                    return IconButton(
+                                      onPressed: isFirst
+                                          ? () {
+                                              pageManager.skipToQueueItem(
+                                                  queue.length - 1);
+                                            }
+                                          : pageManager.previous,
+                                      icon: Image.asset(
+                                        AppImages.previousSong,
+                                        color: TColor.primaryText,
+                                      ),
+                                    );
+                                  }),
                             );
                           },
                         ),
@@ -316,12 +322,14 @@ class _DriverModeViewState extends State<DriverModeView> {
                               width: 60,
                               height: 60,
                               child: IconButton(
-                                onPressed: isLast ? null : pageManager.next,
+                                onPressed: isLast
+                                    ? () {
+                                        pageManager.skipToQueueItem(0);
+                                      }
+                                    : pageManager.next,
                                 icon: Image.asset(
                                   AppImages.nextSong,
-                                  color: isLast
-                                      ? TColor.primaryText35
-                                      : TColor.primaryText,
+                                  color: TColor.primaryText,
                                 ),
                               ),
                             );
