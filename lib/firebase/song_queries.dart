@@ -181,4 +181,26 @@ class FirebaseSongQueries {
       return false;
     }
   }
+
+  Future<bool> editPlaylist({
+    required String userId,
+    required String playlistId,
+    required String newPlaylistName,
+  }) async {
+    try {
+      // Get a reference to the playlist document
+      DocumentReference playlistRef = db
+          .collection('users')
+          .doc(userId)
+          .collection('playlists')
+          .doc(playlistId);
+      await playlistRef.update({'name': newPlaylistName});
+
+      debugPrint('Playlist edited successfully.');
+      return true;
+    } catch (e) {
+      debugPrint('Error editing playlist: $e');
+      return false;
+    }
+  }
 }

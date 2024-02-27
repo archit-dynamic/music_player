@@ -30,7 +30,9 @@ class _AddToPlaylistRowState extends State<AddToPlaylistRow> {
         ClipRRect(
           borderRadius: BorderRadius.circular(10),
           child: CachedNetworkImage(
-            imageUrl: widget.playList.songsList?.first.image?.last.link ?? "",
+            imageUrl: widget.playList.songsList?.isNotEmpty == true
+                ? widget.playList.songsList?.first.image?.last.link ?? ""
+                : "",
             fit: BoxFit.cover,
             height: 100,
             width: 100,

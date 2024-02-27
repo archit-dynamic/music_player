@@ -1,18 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:music_player/common/color_extensions.dart';
+import 'package:music_player/model/playlist_model.dart';
 import 'package:music_player/view_model/add_to_playlist_view_model.dart';
 
-class NewPlaylistDialog extends StatelessWidget {
-  NewPlaylistDialog({Key? key}) : super(key: key);
+class EditPlaylistDialog extends StatelessWidget {
+  final PlaylistModel playlist;
 
-  final TextEditingController nameController =
-      TextEditingController(text: "My playlist");
+  EditPlaylistDialog({
+    Key? key,
+    required this.playlist,
+  }) : super(key: key);
+
   final addToPlaylistVM =
       Get.put<AddToPlaylistViewModel>(AddToPlaylistViewModel());
 
   @override
   Widget build(BuildContext context) {
+    final TextEditingController nameController =
+        TextEditingController(text: playlist.name);
+
     return Material(
       color: Colors.transparent,
       child: Container(
@@ -25,7 +32,7 @@ class NewPlaylistDialog extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              "Give your playlist a name",
+              "Change playlist name",
               style: TextStyle(
                 color: TColor.primaryText,
                 fontSize: 24,
@@ -100,7 +107,10 @@ class NewPlaylistDialog extends StatelessWidget {
                 ),
                 InkWell(
                   onTap: () async {
-                    addToPlaylistVM.onCreatePlaylistClick(nameController.text);
+                    addToPlaylistVM.onEditPlaylistClick(
+                      playlistId: playlist.id ?? "",
+                      playlistName: nameController.text,
+                    );
                   },
                   child: Container(
                     padding:
@@ -110,7 +120,7 @@ class NewPlaylistDialog extends StatelessWidget {
                       borderRadius: BorderRadius.circular(1000),
                     ),
                     child: Text(
-                      "Create",
+                      "Edit",
                       style: TextStyle(
                         color: TColor.bg,
                         fontWeight: FontWeight.w500,

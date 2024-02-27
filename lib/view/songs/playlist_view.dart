@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:music_player/common/app_images.dart';
 import 'package:music_player/common_widgets/my_playlist_cell.dart';
+import 'package:music_player/common_widgets/new_playlist_dialog.dart';
 import 'package:music_player/common_widgets/playlist_songs_cell.dart';
 import 'package:music_player/common_widgets/view_all_section.dart';
 import 'package:music_player/view/songs/playlist_details_view.dart';
@@ -82,7 +83,14 @@ class _PlaylistViewState extends State<PlaylistView> {
       ),
       floatingActionButton: FloatingActionButton(
         backgroundColor: const Color(0xff23273B),
-        onPressed: () {},
+        onPressed: () {
+          showDialog(
+            context: context,
+            builder: (context) {
+              return NewPlaylistDialog();
+            },
+          );
+        },
         child: Padding(
           padding: const EdgeInsets.all(18.0),
           child: Image.asset(

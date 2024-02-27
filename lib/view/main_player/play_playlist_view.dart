@@ -220,19 +220,19 @@ class _PlayPlaylistViewState extends State<PlayPlaylistView> {
                                         infoProperties: InfoProperties(
                                           topLabelStyle: const TextStyle(
                                             color: Colors.transparent,
-                                            fontSize: 16,
+                                            fontSize: 1,
                                             fontWeight: FontWeight.w400,
                                           ),
                                           topLabelText: 'Elapsed',
                                           bottomLabelStyle: const TextStyle(
                                             color: Colors.transparent,
-                                            fontSize: 16,
+                                            fontSize: 1,
                                             fontWeight: FontWeight.w400,
                                           ),
                                           bottomLabelText: 'time',
                                           mainLabelStyle: const TextStyle(
                                             color: Colors.transparent,
-                                            fontSize: 50.0,
+                                            fontSize: 1.0,
                                             fontWeight: FontWeight.w600,
                                           ),
                                         ),

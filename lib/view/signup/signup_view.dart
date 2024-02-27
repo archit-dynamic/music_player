@@ -1,11 +1,9 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:music_player/common/app_images.dart';
 import 'package:music_player/common/color_extensions.dart';
-import 'package:music_player/firebase/authentication_queries.dart';
 import 'package:music_player/view/login/login_view.dart';
-import 'package:music_player/view/main_tabview/main_tabview.dart';
+import 'package:music_player/view_model/signup_view_model.dart';
 
 class SignUpView extends StatefulWidget {
   const SignUpView({Key? key}) : super(key: key);
@@ -19,6 +17,7 @@ class _SignUpViewState extends State<SignUpView> {
 
   final TextEditingController passwordController = TextEditingController();
   bool isObscure = true;
+  final loginVM = Get.put<SignupViewModel>(SignupViewModel());
 
   @override
   Widget build(BuildContext context) {
@@ -149,16 +148,9 @@ class _SignUpViewState extends State<SignUpView> {
             ),
             InkWell(
               onTap: () async {
-                if (emailController.text.isNotEmpty &&
-                    passwordController.text.isNotEmpty) {
-                  User? user = await FirebaseAuthenticationQueries().signUpUser(
+                loginVM.signUpUser(
                     email: emailController.text,
-                    password: passwordController.text,
-                  );
-                  if (user != null) {
-                    Get.to(() => const MainTabView());
-                  }
-                }
+                    password: passwordController.text);
               },
               child: Container(
                 padding:

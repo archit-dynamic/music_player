@@ -440,16 +440,47 @@ class _MainPlayerViewState extends State<MainPlayerView> {
                             );
                           },
                         ),
-                        PlayerBottomButton(
-                          title: "Shuffle",
-                          icon: AppImages.shuffle,
-                          onPressed: () {},
-                        ),
-                        PlayerBottomButton(
-                          title: "Repeat",
-                          icon: AppImages.repeat,
-                          onPressed: () {},
-                        ),
+                        ValueListenableBuilder<bool>(
+                            valueListenable:
+                                pageManager.isShuffleModeEnabledNotifier,
+                            builder: (context, value, child) {
+                              return PlayerBottomButton(
+                                title: "Shuffle",
+                                icon: AppImages.shuffle,
+                                isSelected: value,
+                                onPressed: () {
+                                  if (value) {
+                                    pageManager.setShuffleMode(
+                                        AudioServiceShuffleMode.none);
+                                  } else {
+                                    pageManager.setShuffleMode(
+                                        AudioServiceShuffleMode.all);
+                                    pageManager.setRepeatMode(
+                                        AudioServiceRepeatMode.none);
+                                  }
+                                },
+                              );
+                            }),
+                        ValueListenableBuilder<RepeatState>(
+                            valueListenable: pageManager.repeatButtonNotifier,
+                            builder: (context, value, child) {
+                              return PlayerBottomButton(
+                                title: "Repeat",
+                                icon: AppImages.repeat,
+                                isSelected: value == RepeatState.repeatSong,
+                                onPressed: () {
+                                  if (value == RepeatState.repeatSong) {
+                                    pageManager.setRepeatMode(
+                                        AudioServiceRepeatMode.none);
+                                  } else if (value == RepeatState.off) {
+                                    pageManager.setRepeatMode(
+                                        AudioServiceRepeatMode.one);
+                                    pageManager.setShuffleMode(
+                                        AudioServiceShuffleMode.none);
+                                  }
+                                },
+                              );
+                            }),
                         PlayerBottomButton(
                           title: "EQ",
                           icon: AppImages.eq,

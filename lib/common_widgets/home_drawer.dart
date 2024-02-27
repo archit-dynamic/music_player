@@ -21,7 +21,7 @@ class HomeDrawer extends StatelessWidget {
         padding: EdgeInsets.zero,
         children: [
           SizedBox(
-            height: 200,
+            height: 240,
             child: DrawerHeader(
               decoration: BoxDecoration(
                 color: TColor.primaryText.withOpacity(0.03),

@@ -33,7 +33,9 @@ class MyPlaylistCell extends StatelessWidget {
                 ClipRRect(
                   borderRadius: BorderRadius.circular(5),
                   child: CachedNetworkImage(
-                    imageUrl: playlist.songsList?.first.image?.last.link ?? "",
+                    imageUrl: playlist.songsList?.isNotEmpty == true
+                        ? playlist.songsList?.first.image?.last.link ?? ""
+                        : "",
                     fit: BoxFit.cover,
                     width: 90,
                     height: 80,

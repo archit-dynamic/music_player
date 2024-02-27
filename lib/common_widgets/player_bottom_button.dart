@@ -5,12 +5,14 @@ class PlayerBottomButton extends StatelessWidget {
   final String title;
   final String icon;
   final VoidCallback onPressed;
+  final bool isSelected;
 
   const PlayerBottomButton({
     Key? key,
     required this.title,
     required this.icon,
     required this.onPressed,
+    this.isSelected = false,
   }) : super(key: key);
 
   @override
@@ -26,7 +28,7 @@ class PlayerBottomButton extends StatelessWidget {
               onPressed: onPressed,
               icon: Image.asset(
                 icon,
-                color: TColor.primaryText80,
+                color: isSelected ? TColor.focus : TColor.primaryText80,
                 height: 30,
                 width: 30,
               ),
@@ -35,7 +37,7 @@ class PlayerBottomButton extends StatelessWidget {
           Text(
             title,
             style: TextStyle(
-              color: TColor.secondaryText,
+              color: isSelected ? TColor.focus : TColor.secondaryText,
               fontSize: 8,
             ),
           ),
